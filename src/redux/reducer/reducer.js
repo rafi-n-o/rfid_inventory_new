@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { attributes } from "./attribute";
 import { categories } from "./category";
+import { measures } from "./measure";
 import { contacts } from "./contact";
 import { dashboards } from "./dashboard";
 import { epcLogs } from "./epcLog";
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   warehouse,
   warehouseStock,
   categories,
+  measures,
   attributes,
   contacts,
   products,

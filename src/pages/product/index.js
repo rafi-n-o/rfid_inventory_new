@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getAttributes } from "../../redux/action/attribute";
 import { getCategories } from "../../redux/action/category";
+import { getMeasures } from "../../redux/action/measure";
 import { convertToBase64 } from "../../redux/action/convertToBase64";
 import {
   getProducts,
@@ -12,15 +13,17 @@ import {
 
 const Product = () => {
   const [id, setId] = useState();
+  const [categoryId, setCategoryId] = useState();
+  const [code, setCode] = useState();
   const [name, setName] = useState();
   const [image, setImage] = useState();
-  const [categoryId, setCategoryId] = useState();
   const [attributesId, setAttributesId] = useState([]);
-  const [filterCategoryId, setFilterCategoryId] = useState();
   const [attribute1Id, setAttribute1Id] = useState();
   const [attribute2Id, setAttribute2Id] = useState();
   const [attribute3Id, setAttribute3Id] = useState();
+  const [measureId, setMeasureId] = useState();
   const [validation, setValidation] = useState([]);
+  const [filterCategoryId, setFilterCategoryId] = useState();
 
   const dispatch = useDispatch();
 
@@ -28,11 +31,13 @@ const Product = () => {
     dispatch(getProducts());
     dispatch(getAttributes());
     dispatch(getCategories());
+    dispatch(getMeasures());
   }, [dispatch]);
 
   const { products } = useSelector((state) => state.products);
   const { attributes } = useSelector((state) => state.attributes);
   const { categories } = useSelector((state) => state.categories);
+  const { measures } = useSelector((state) => state.measures);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -51,12 +56,14 @@ const Product = () => {
     e.preventDefault();
 
     const form = {
+      category_id: categoryId,
+      code,
       name,
       image,
-      category_id: categoryId,
       attribute1_id: attributesId[0],
       attribute2_id: attributesId[1],
       attribute3_id: attributesId[2],
+      measure_id: measureId,
     };
 
     storeProduct(form)
@@ -77,12 +84,14 @@ const Product = () => {
     e.preventDefault();
 
     const form = {
+      category_id: categoryId,
+      code,
       name,
       image,
-      category_id: categoryId,
       attribute1_id: attribute1Id,
       attribute2_id: attribute2Id,
       attribute3_id: attribute3Id,
+      measure_id: measureId,
     };
 
     updateProduct(id, form)
@@ -188,9 +197,11 @@ const Product = () => {
                   <tr>
                     <th>No.</th>
                     <th>Kategori</th>
-                    <th>Gambar</th>
+                    <th>Kode</th>
                     <th>Nama</th>
+                    <th>Gambar</th>
                     <th>Atribut</th>
+                    <th>Satuan</th>
                     <th>Registered</th>
                     <th>In Stock</th>
                     <th>On Transfer</th>
@@ -202,6 +213,8 @@ const Product = () => {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{value.category.name}</td>
+                      <td>{value.code}</td>
+                      <td>{value.name}</td>
                       <td>
                         <img
                           src={value.image}
@@ -209,11 +222,11 @@ const Product = () => {
                           style={{ maxHeight: 80 }}
                         />
                       </td>
-                      <td>{value.name}</td>
                       <td>
                         {value.attribute1?.name}, {value.attribute2?.name},{" "}
                         {value.attribute3?.name}
                       </td>
+                      <td>{value.measure?.name}</td>
                       <td>{value.qty_item}</td>
                       <td>{value.qty_item_in_stock}</td>
                       <td>{value.qty_item_on_transfer}</td>
@@ -225,12 +238,14 @@ const Product = () => {
                           data-target="#exampleModal2"
                           onClick={() => {
                             setId(value.id);
+                            setCategoryId(value.category_id);
+                            setCode(value.code);
                             setName(value.name);
                             setImage(null);
-                            setCategoryId(value.category_id);
                             setAttribute1Id(value.attribute1_id);
                             setAttribute2Id(value.attribute2_id);
                             setAttribute3Id(value.attribute3_id);
+                            setMeasureId(value.measure_id);
                           }}
                         >
                           <i class="fas fa-edit"></i>
@@ -288,11 +303,24 @@ const Product = () => {
                   </small>
                 </div>
                 <div className="form-group">
+                  <label className="text-muted">Kode</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Kode Produk"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.code}
+                  </small>
+                </div>
+                <div className="form-group">
                   <label className="text-muted">Nama</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Nama"
+                    placeholder="Nama Produk"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -328,6 +356,23 @@ const Product = () => {
                       </label>
                     </div>
                   ))}
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Satuan</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => setMeasureId(e.target.value)}
+                  >
+                    <option value="" selected>
+                      Pilih Satuan
+                    </option>
+                    {measures?.map((value, index) => (
+                      <option value={value.id}>{value.name}</option>
+                    ))}
+                  </select>
+                  <small className="form-text text-danger">
+                    {validation?.measure_id}
+                  </small>
                 </div>
               </div>
               <div className="modal-footer">
@@ -397,11 +442,24 @@ const Product = () => {
                   </small>
                 </div>
                 <div className="form-group">
+                  <label className="text-muted">Kode</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Kode Produk"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.code}
+                  </small>
+                </div>
+                <div className="form-group">
                   <label className="text-muted">Nama</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Nama"
+                    placeholder="Nama Produk"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -486,6 +544,31 @@ const Product = () => {
                         );
                     })}
                   </select>
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Satuan</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => setMeasureId(e.target.value)}
+                  >
+                    {measures?.map((value, index) => {
+                      if (value.id === categoryId)
+                        return (
+                          <option value={value.id} key={index} selected>
+                            {value.name}
+                          </option>
+                        );
+                      else
+                        return (
+                          <option value={value.id} key={index}>
+                            {value.name}
+                          </option>
+                        );
+                    })}
+                  </select>
+                  <small className="form-text text-danger">
+                    {validation?.measure_id}
+                  </small>
                 </div>
               </div>
               <div className="modal-footer">

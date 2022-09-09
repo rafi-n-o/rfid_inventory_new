@@ -5,13 +5,16 @@ import { toast } from "react-toastify";
 import { getAttributes } from "../../redux/action/attribute";
 import { getCategories } from "../../redux/action/category";
 import { convertToBase64 } from "../../redux/action/convertToBase64";
+import { getMeasures } from "../../redux/action/measure";
 import { getProducts, storeProduct } from "../../redux/action/product";
 
 const FormProduct = () => {
+  const [categoryId, setCategoryId] = useState();
+  const [code, setCode] = useState();
   const [name, setName] = useState();
   const [image, setImage] = useState();
-  const [categoryId, setCategoryId] = useState();
   const [attributesId, setAttributesId] = useState([]);
+  const [measureId, setMeasureId] = useState();
   const [validation, setValidation] = useState([]);
 
   const navigate = useNavigate();
@@ -28,11 +31,13 @@ const FormProduct = () => {
     dispatch(getCategories());
     dispatch(getAttributes());
     dispatch(getProducts());
+    dispatch(getMeasures());
   }, [token]);
 
   const { categories } = useSelector((state) => state.categories);
   const { attributes } = useSelector((state) => state.attributes);
   const { products } = useSelector((state) => state.products);
+  const { measures } = useSelector((state) => state.measures);
 
   if (products.length > 0) {
     navigate("/dashboard");
@@ -55,12 +60,14 @@ const FormProduct = () => {
     e.preventDefault();
 
     const form = {
+      category_id: categoryId,
+      code,
       name,
       image,
-      category_id: categoryId,
       attribute1_id: attributesId[0],
       attribute2_id: attributesId[1],
       attribute3_id: attributesId[2],
+      measure_id: measureId,
     };
 
     storeProduct(form)
@@ -84,10 +91,10 @@ const FormProduct = () => {
         <div className="container-fluid">
           <div className="progress" style={{ height: "20px" }}>
             <div
-              className="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+              className="progress-bar progress-bar-striped progress-bar-animated bg-success"
               role="progressbar"
-              style={{ width: "80%" }}
-              aria-valuenow="25"
+              style={{ width: "100%" }}
+              aria-valuenow="100"
               aria-valuemin="0"
               aria-valuemax="100"
             >
@@ -118,6 +125,19 @@ const FormProduct = () => {
                 </select>
                 <small className="form-text text-danger">
                   {validation?.category_id}
+                </small>
+              </div>
+              <div className="form-group">
+                <label className="text-muted">Kode</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Kode Produk"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
+                <small className="form-text text-danger">
+                  {validation?.code}
                 </small>
               </div>
               <div className="form-group">
@@ -159,6 +179,25 @@ const FormProduct = () => {
                     <label className="form-check-label">{value.name}</label>
                   </div>
                 ))}
+              </div>
+              <div className="form-group">
+                <label className="text-muted">Satuan</label>
+                <select
+                  className="form-control"
+                  onChange={(e) => setMeasureId(e.target.value)}
+                >
+                  <option value="" selected>
+                    Pilih Satuan
+                  </option>
+                  {measures?.map((value, index) => (
+                    <option value={value.id} key={index}>
+                      {value.name}
+                    </option>
+                  ))}
+                </select>
+                <small className="form-text text-danger">
+                  {validation?.measure_id}
+                </small>
               </div>
               <button type="submit" className="btn btn-primary">
                 Simpan

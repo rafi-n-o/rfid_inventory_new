@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Gap from "../../components/atoms/Gap";
 import { getAttributes, storeAttribute } from "../../redux/action/attribute";
 
 const FormAttribute = () => {
@@ -28,7 +27,7 @@ const FormAttribute = () => {
   const { attributes } = useSelector((state) => state.attributes);
 
   if (attributes.length > 0) {
-    navigate("/form-product");
+    navigate("/form-measure");
   }
 
   const formAttribute = (e) => {
@@ -43,7 +42,7 @@ const FormAttribute = () => {
       storeAttribute(form)
         .then((res) => {
           toast.success(res.message);
-          navigate("/form-product");
+          navigate("/form-measure");
         })
         .catch((err) => {
           if (err.message === "validation failed") {
@@ -83,8 +82,8 @@ const FormAttribute = () => {
             <div
               className="progress-bar progress-bar-striped progress-bar-animated bg-info"
               role="progressbar"
-              style={{ width: "75%" }}
-              aria-valuenow="25"
+              style={{ width: "60%" }}
+              aria-valuenow="60"
               aria-valuemin="0"
               aria-valuemax="100"
             >

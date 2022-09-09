@@ -67,9 +67,7 @@ const Login = () => {
     <div className="row justify-content-center">
       <div className="login-box">
         <div className="login-logo">
-          <a href="../../index2.html">
-            <b>SINTAR</b>
-          </a>
+          <b>SINTAR</b>
         </div>
         <div className="card">
           <div className="card-body login-card-body">

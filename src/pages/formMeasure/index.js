@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getUser } from "../../redux/action/user";
-import { storeWarehouse } from "../../redux/action/warehouse";
+import { getMeasures, storeMeasure } from "../../redux/action/measure";
 
-const FormWarehouse = () => {
+const FormMeasure = () => {
   const [name, setName] = useState();
-  const [address, setAddress] = useState();
-  const [phone, setPhone] = useState();
   const [validation, setValidation] = useState([]);
 
   const navigate = useNavigate();
@@ -18,27 +16,29 @@ const FormWarehouse = () => {
     navigate("/login");
   }
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getUser().then((res) => {
-      if (res.data?.company?.warehouses.length > 0) {
-        navigate("/form-category");
-      }
-    });
+    dispatch(getMeasures());
   }, [token]);
 
-  const formWarehouse = (e) => {
+  const { measures } = useSelector((state) => state.measures);
+
+  if (measures.length > 0) {
+    navigate("/form-product");
+  }
+
+  const formMeasure = (e) => {
     e.preventDefault();
 
     const form = {
       name,
-      address,
-      phone,
     };
 
-    storeWarehouse(form)
+    storeMeasure(form)
       .then((res) => {
         toast.success(res.message);
-        navigate("/form-category");
+        navigate("/form-product");
       })
       .catch((err) => {
         if (err.message === "validation failed") {
@@ -56,14 +56,14 @@ const FormWarehouse = () => {
         <div className="container-fluid">
           <div className="progress" style={{ height: "20px" }}>
             <div
-              className="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+              className="progress-bar progress-bar-striped progress-bar-animated bg-primary"
               role="progressbar"
-              style={{ width: "20%" }}
-              aria-valuenow="20"
+              style={{ width: "80%" }}
+              aria-valuenow="80"
               aria-valuemin="0"
               aria-valuemax="100"
             >
-              20%
+              80%
             </div>
           </div>
         </div>
@@ -72,45 +72,19 @@ const FormWarehouse = () => {
         <div className="row justify-content-center">
           <div className="card">
             <div className="card-body">
-              <p>Lengkapi Warehouse Pertama Kamu</p>
-              <form onSubmit={formWarehouse}>
+              <p>Lengkapi Satuan Produk Pertama Kamu</p>
+              <form onSubmit={formMeasure}>
                 <div className="form-group">
                   <label className="text-muted">Nama</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Nama Warehouse"
+                    placeholder="Nama Satuan"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <small className="form-text text-danger">
                     {validation?.name}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">Alamat</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Alamat"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.address}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">No. Telp</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="No. Telp"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.phone}
                   </small>
                 </div>
                 <button type="submit" className="btn btn-primary btn-block">
@@ -125,4 +99,4 @@ const FormWarehouse = () => {
   );
 };
 
-export default FormWarehouse;
+export default FormMeasure;

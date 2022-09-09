@@ -8,6 +8,7 @@ import Attribute from "./pages/attribute";
 import Cart from "./pages/cart";
 import Order from "./pages/order";
 import Category from "./pages/category";
+import Measure from "./pages/measure";
 import Contact from "./pages/contact";
 import Dashboard from "./pages/dashboard";
 import EpcLog from "./pages/epcLog";
@@ -31,6 +32,7 @@ import WarehouseStock from "./pages/warehouseStock";
 import store from "./redux/store";
 import FormApp from "./layouts/FormApp";
 import Device from "./pages/device";
+import FormMeasure from "./pages/formMeasure";
 
 const App = () => {
   return (
@@ -56,6 +58,7 @@ const App = () => {
               <Route path="form-warehouse" element={<FormWarehouse />} />
               <Route path="form-category" element={<FormCategory />} />
               <Route path="form-attribute" element={<FormAttribute />} />
+              <Route path="form-measure" element={<FormMeasure />} />
               <Route path="form-product" element={<FormProduct />} />
             </Route>
 
@@ -81,6 +84,9 @@ const App = () => {
             </Route>
             <Route path="categories" element={<MainApp />}>
               <Route index element={<Category />} />
+            </Route>
+            <Route path="measures" element={<MainApp />}>
+              <Route index element={<Measure />} />
             </Route>
             <Route path="attributes" element={<MainApp />}>
               <Route index element={<Attribute />} />

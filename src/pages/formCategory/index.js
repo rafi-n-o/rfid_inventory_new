@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getCategories, storeCategory } from "../../redux/action/category";
-import Gap from "../../components/atoms/Gap";
 
 const FormCategory = () => {
   const [name, setName] = useState();
@@ -59,8 +58,8 @@ const FormCategory = () => {
             <div
               className="progress-bar progress-bar-striped progress-bar-animated bg-warning"
               role="progressbar"
-              style={{ width: "50%" }}
-              aria-valuenow="25"
+              style={{ width: "40%" }}
+              aria-valuenow="40"
               aria-valuemin="0"
               aria-valuemax="100"
             >

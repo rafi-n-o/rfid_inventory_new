@@ -4,13 +4,13 @@ const GlobalNavbar = () => {
   return (
     <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
       <div className="container">
-        <a class="navbar-brand" href="/">
+        <Link to="/" class="navbar-brand">
           <img
             src="assets/images/logoNav.png"
             className="img-fluid"
             style={styles.logo}
           />
-        </a>
+        </Link>
         <button
           class="navbar-toggler"
           type="button"

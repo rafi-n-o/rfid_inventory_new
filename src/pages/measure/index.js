@@ -2,38 +2,32 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  getContacts,
-  storeContact,
-  updateContact,
-} from "../../redux/action/contact";
+  getMeasures,
+  storeMeasure,
+  updateMeasure,
+} from "../../redux/action/measure";
 
-const Contact = () => {
+const Measure = () => {
   const [id, setId] = useState();
-  const [type, setType] = useState();
   const [name, setName] = useState();
-  const [address, setAddress] = useState();
-  const [phone, setPhone] = useState();
   const [validation, setValidation] = useState([]);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getContacts());
+    dispatch(getMeasures());
   }, [dispatch]);
 
-  const { contacts } = useSelector((state) => state.contacts);
+  const { measures } = useSelector((state) => state.measures);
 
-  const formContact = (e) => {
+  const formMeasure = (e) => {
     e.preventDefault();
 
     const form = {
-      type,
       name,
-      address,
-      phone,
     };
 
-    storeContact(form)
+    storeMeasure(form)
       .then((res) => {
         window.location.reload();
       })
@@ -47,17 +41,14 @@ const Contact = () => {
       });
   };
 
-  const formUpdateContact = (e) => {
+  const formUpdateMeasure = (e) => {
     e.preventDefault();
 
     const form = {
-      type,
       name,
-      address,
-      phone,
     };
 
-    updateContact(id, form)
+    updateMeasure(id, form)
       .then((res) => {
         window.location.reload();
       })
@@ -77,14 +68,14 @@ const Contact = () => {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-sm-6">
-              <h1>Contact</h1>
+              <h1>Satuan</h1>
             </div>
             <div className="col-sm-6">
               <ol className="breadcrumb float-sm-right">
                 <li className="breadcrumb-item">
                   <a href="#">Home</a>
                 </li>
-                <li className="breadcrumb-item active">Contact</li>
+                <li className="breadcrumb-item active">Satuan</li>
               </ol>
             </div>
           </div>
@@ -129,18 +120,14 @@ const Contact = () => {
                   <tr>
                     <th>No.</th>
                     <th>Nama</th>
-                    <th>Alamat</th>
-                    <th>No. Telp</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {contacts?.map((value, index) => (
+                  {measures?.map((value, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{value.name}</td>
-                      <td>{value.address}</td>
-                      <td>{value.phone}</td>
                       <td>
                         <button
                           type="button"
@@ -149,10 +136,7 @@ const Contact = () => {
                           data-target="#exampleModal2"
                           onClick={() => {
                             setId(value.id);
-                            setType(value.type);
                             setName(value.name);
-                            setAddress(value.address);
-                            setPhone(value.phone);
                           }}
                         >
                           <i class="fas fa-edit"></i>
@@ -179,7 +163,7 @@ const Contact = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Tambah Kontak
+                Tambah Satuan
               </h5>
               <button
                 type="button"
@@ -190,24 +174,8 @@ const Contact = () => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form onSubmit={formContact}>
+            <form onSubmit={formMeasure}>
               <div className="modal-body">
-                <div className="form-group">
-                  <label className="text-muted">Tipe</label>
-                  <select
-                    className="form-control"
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <option value="" selected>
-                      Pilih Tipe
-                    </option>
-                    <option value="supplier">Supplier</option>
-                    <option value="customer">Customer</option>
-                  </select>
-                  <small className="form-text text-danger">
-                    {validation?.type}
-                  </small>
-                </div>
                 <div className="form-group">
                   <label className="text-muted">Nama</label>
                   <input
@@ -219,32 +187,6 @@ const Contact = () => {
                   />
                   <small className="form-text text-danger">
                     {validation?.name}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">Alamat</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Alamat"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.address}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">No. Telp</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="No. Telp"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.phone}
                   </small>
                 </div>
               </div>
@@ -276,7 +218,7 @@ const Contact = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Ubah Kontak
+                Ubah Satuan
               </h5>
               <button
                 type="button"
@@ -287,21 +229,8 @@ const Contact = () => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form onSubmit={formUpdateContact}>
+            <form onSubmit={formUpdateMeasure}>
               <div className="modal-body">
-                <div className="form-group">
-                  <label className="text-muted">Tipe</label>
-                  <select
-                    className="form-control"
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <option value="supplier">Supplier</option>
-                    <option value="customer">Customer</option>
-                  </select>
-                  <small className="form-text text-danger">
-                    {validation?.type}
-                  </small>
-                </div>
                 <div className="form-group">
                   <label className="text-muted">Nama</label>
                   <input
@@ -313,32 +242,6 @@ const Contact = () => {
                   />
                   <small className="form-text text-danger">
                     {validation?.name}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">Alamat</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Alamat"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.address}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label className="text-muted">No. Telp</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="No. Telp"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                  <small className="form-text text-danger">
-                    {validation?.phone}
                   </small>
                 </div>
               </div>
@@ -362,4 +265,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Measure;

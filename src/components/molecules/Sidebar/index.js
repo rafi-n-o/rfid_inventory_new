@@ -123,6 +123,12 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link to="/measures" className="nav-link">
+                    <i className="far fa-circle nav-icon"></i>
+                    <p>Satuan</p>
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link to="/attributes" className="nav-link">
                     <i className="far fa-circle nav-icon"></i>
                     <p>Atribut</p>
