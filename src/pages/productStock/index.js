@@ -126,6 +126,7 @@ const ProductStock = () => {
                   <tr>
                     <th>No.</th>
                     <th>Gambar</th>
+                    <th>Kode</th>
                     <th>Produk</th>
                     <th>Warehouse</th>
                     <th>Qty</th>
@@ -143,9 +144,12 @@ const ProductStock = () => {
                           style={{ maxHeight: 80 }}
                         />
                       </td>
+                      <td>{value.product.code}</td>
                       <td>{value.product.name}</td>
                       <td>{value.warehouse.name}</td>
-                      <td>{value.qty}</td>
+                      <td>
+                        {value.qty} {value.product.measure.name}
+                      </td>
                       <td>
                         <button
                           type="button"
