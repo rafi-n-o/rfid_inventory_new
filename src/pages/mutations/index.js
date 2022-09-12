@@ -255,7 +255,7 @@ const Mutations = () => {
                       <th>No.</th>
                       <th>Gambar</th>
                       <th>Kode</th>
-                      <th>Nama</th>
+                      <th>Produk</th>
                       <th>Qty</th>
                       <th>Aksi</th>
                     </tr>
