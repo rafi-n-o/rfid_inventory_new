@@ -128,6 +128,7 @@ const Contact = () => {
                 <thead>
                   <tr>
                     <th>No.</th>
+                    <th>Tipe</th>
                     <th>Nama</th>
                     <th>Alamat</th>
                     <th>No. Telp</th>
@@ -138,6 +139,7 @@ const Contact = () => {
                   {contacts?.map((value, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
+                      <td>{value.type}</td>
                       <td>{value.name}</td>
                       <td>{value.address}</td>
                       <td>{value.phone}</td>

@@ -254,7 +254,8 @@ const Mutations = () => {
                     <tr>
                       <th>No.</th>
                       <th>Gambar</th>
-                      <th>Nama Item</th>
+                      <th>Kode</th>
+                      <th>Nama</th>
                       <th>Qty</th>
                       <th>Aksi</th>
                     </tr>
@@ -270,13 +271,16 @@ const Mutations = () => {
                             style={{ maxHeight: 80 }}
                           />
                         </td>
+                        <td>{value.item_data?.product?.code}</td>
                         <td>
                           {value.item_data?.product?.name}{" "}
                           {value.item_data?.attribute1_value}{" "}
                           {value.item_data?.attribute2_value}{" "}
                           {value.item_data?.attribute3_value}
                         </td>
-                        <td>{value.qty}</td>
+                        <td>
+                          {value.qty} {value.item_data?.product?.measure?.name}
+                        </td>
                         <td>
                           <button
                             type="button"

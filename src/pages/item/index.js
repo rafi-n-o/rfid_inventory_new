@@ -141,6 +141,7 @@ const Item = () => {
                   <tr>
                     <th>No.</th>
                     <th>Gambar</th>
+                    <th>Kode</th>
                     <th>Produk</th>
                     <th>Warehouse | Lokasi</th>
                     <th>EPC</th>
@@ -159,6 +160,7 @@ const Item = () => {
                           style={{ maxHeight: 80 }}
                         />
                       </td>
+                      <td>{value.product.code}</td>
                       <td>
                         {value.product.name} {value.attribute1_value}{" "}
                         {value.attribute2_value} {value.attribute3_value}
