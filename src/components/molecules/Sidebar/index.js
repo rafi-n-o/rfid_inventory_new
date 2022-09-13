@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+  useEffect(() => {
+    const trees = window.$('[data-widget = "treeview"]');
+    trees.Treeview("init");
+  }, []);
+
   const btnLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
