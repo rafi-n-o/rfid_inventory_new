@@ -22,6 +22,8 @@ const Product = () => {
   const [attribute2Id, setAttribute2Id] = useState();
   const [attribute3Id, setAttribute3Id] = useState();
   const [measureId, setMeasureId] = useState();
+  const [minStock, setMinStock] = useState();
+  const [maxStock, setMaxStock] = useState();
   const [validation, setValidation] = useState([]);
   const [filterCategoryId, setFilterCategoryId] = useState();
 
@@ -64,6 +66,8 @@ const Product = () => {
       attribute2_id: attributesId[1],
       attribute3_id: attributesId[2],
       measure_id: measureId,
+      min_stock: minStock,
+      max_stock: maxStock,
     };
 
     storeProduct(form)
@@ -92,6 +96,8 @@ const Product = () => {
       attribute2_id: attribute2Id,
       attribute3_id: attribute3Id,
       measure_id: measureId,
+      min_stock: minStock,
+      max_stock: maxStock,
     };
 
     updateProduct(id, form)
@@ -205,6 +211,8 @@ const Product = () => {
                     <th>Registered</th>
                     <th>In Stock</th>
                     <th>On Transfer</th>
+                    <th>Minimum Stock</th>
+                    <th>Maximum Stock</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -230,6 +238,8 @@ const Product = () => {
                       <td>{value.qty_item}</td>
                       <td>{value.qty_item_in_stock}</td>
                       <td>{value.qty_item_on_transfer}</td>
+                      <td>{value.min_stock}</td>
+                      <td>{value.max_stock}</td>
                       <td>
                         <button
                           type="button"
@@ -246,6 +256,8 @@ const Product = () => {
                             setAttribute2Id(value.attribute2_id);
                             setAttribute3Id(value.attribute3_id);
                             setMeasureId(value.measure_id);
+                            setMinStock(value.min_stock);
+                            setMaxStock(value.max_stock);
                           }}
                         >
                           <i class="fas fa-edit"></i>
@@ -372,6 +384,32 @@ const Product = () => {
                   </select>
                   <small className="form-text text-danger">
                     {validation?.measure_id}
+                  </small>
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Minimum Stock</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Minimum Stock"
+                    value={minStock}
+                    onChange={(e) => setMinStock(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.min_stock}
+                  </small>
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Maximum Stock</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Max Stock"
+                    value={maxStock}
+                    onChange={(e) => setMaxStock(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.max_stock}
                   </small>
                 </div>
               </div>
@@ -568,6 +606,32 @@ const Product = () => {
                   </select>
                   <small className="form-text text-danger">
                     {validation?.measure_id}
+                  </small>
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Minimum Stock</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Minimum Stock"
+                    value={minStock}
+                    onChange={(e) => setMinStock(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.min_stock}
+                  </small>
+                </div>
+                <div className="form-group">
+                  <label className="text-muted">Maximum Stock</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Max Stock"
+                    value={maxStock}
+                    onChange={(e) => setMaxStock(e.target.value)}
+                  />
+                  <small className="form-text text-danger">
+                    {validation?.max_stock}
                   </small>
                 </div>
               </div>

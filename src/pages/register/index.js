@@ -65,7 +65,7 @@ const Register = () => {
     <div className="row justify-content-center">
       <div className="login-box">
         <div className="login-logo">
-          <b>SINTAR</b>
+          <img src="assets/images/logoNav.png" className="img-fluid w-50" />
         </div>
         <div className="card">
           <div className="card-body login-card-body">

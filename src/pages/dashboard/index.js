@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Pie, PieChart, Tooltip } from "recharts";
+import { Pie, PieChart, Tooltip, Cell } from "recharts";
 import { getDashboards } from "../../redux/action/dashboard";
 import { getProducts } from "../../redux/action/product";
 
@@ -21,6 +21,42 @@ const Dashboard = () => {
   if (products.length === 0) {
     navigate("/form-warehouse");
   }
+
+  const COLORS = [];
+
+  if (dashboards?.products?.length > 0) {
+    for (let i = 0; i < dashboards?.products?.length; i++) {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      COLORS.push(`#${randomColor}`);
+    }
+  }
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
     <>
@@ -45,21 +81,6 @@ const Dashboard = () => {
       <section className="content">
         <div className="container-fluid">
           <div class="row">
-            {/* <div class="col">
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>Stock (Last)</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">
-                  More info <i class="fas fa-arrow-circle-right"></i>
-                </a>
-              </div>
-            </div> */}
-
             <div class="col">
               <div class="small-box bg-success">
                 <div class="inner">
@@ -145,17 +166,23 @@ const Dashboard = () => {
             <div className="card-body">
               <div className="row">
                 <div className="col-lg-4">
-                  <PieChart width={350} height={350}>
+                  <PieChart width={255} height={255}>
                     <Pie
-                      dataKey="qty_item_in_stock"
-                      isAnimationActive={true}
                       data={dashboards?.products}
+                      dataKey="qty_item_in_stock"
+                      isAnimationActive={false}
                       cx="50%"
                       cy="50%"
-                      outerRadius={120}
-                      fill="#28A745"
+                      outerRadius={90}
                       label
-                    />
+                    >
+                      {dashboards?.products?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
                     <Tooltip />
                   </PieChart>
                 </div>
@@ -206,17 +233,23 @@ const Dashboard = () => {
             <div className="card-body">
               <div className="row">
                 <div className="col-lg-4">
-                  <PieChart width={350} height={350}>
+                  <PieChart width={255} height={255}>
                     <Pie
-                      dataKey="qty_item_on_transfer"
-                      isAnimationActive={true}
                       data={dashboards?.products}
+                      dataKey="qty_item_on_transfer"
+                      isAnimationActive={false}
                       cx="50%"
                       cy="50%"
-                      outerRadius={120}
-                      fill="#FFC107"
+                      outerRadius={90}
                       label
-                    />
+                    >
+                      {dashboards?.products?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
                     <Tooltip />
                   </PieChart>
                 </div>

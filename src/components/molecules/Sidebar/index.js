@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Gap from "../../atoms/Gap";
 
 const Sidebar = () => {
   useEffect(() => {
@@ -13,19 +14,13 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="main-sidebar sidebar-dark-primary elevation-4">
-      <Link to="/dashboard" className="brand-link">
-        <img
-          src="assets/dist/img/AdminLTELogo.png"
-          alt="AdminLTE Logo"
-          className="brand-image img-circle elevation-3"
-          style={{ opacity: ".8" }}
-        />
-        <span className="brand-text font-weight-light">SINTAR</span>
-      </Link>
-
+    <aside className="main-sidebar sidebar-light-primary elevation-4">
+      <div className="brand-link text-center">
+        <img src="assets/images/logoNav.png" className="img-fluid w-50" />
+      </div>
+      <hr />
       <div className="sidebar">
-        <nav className="mt-2">
+        <nav>
           <ul
             className="nav nav-pills nav-sidebar flex-column"
             data-widget="treeview"
@@ -176,15 +171,18 @@ const Sidebar = () => {
                   </Link>
                 </li>
               </ul>
-              <li className="nav-item">
-                <button
-                  className="btn btn-danger nav-link text-light"
-                  onClick={btnLogout}
-                >
-                  Logout
-                </button>
-              </li>
             </li>
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                onClick={btnLogout}
+                style={{ cursor: "pointer" }}
+              >
+                <i className="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+              </a>
+            </li>
+            <Gap height={30} />
           </ul>
         </nav>
       </div>

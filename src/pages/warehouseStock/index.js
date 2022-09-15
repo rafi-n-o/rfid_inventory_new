@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Gap from "../../components/atoms/Gap";
 import { getWarehouses, getWarehouseStock } from "../../redux/action/warehouse";
 
 const WarehouseStock = () => {
   const [warehouseId, setWarehouseId] = useState();
   const [productName, setProductName] = useState();
   const [warehouseName, setWarehouseName] = useState();
+  const [minStock, setMinStock] = useState();
+  const [maxStock, setMaxStock] = useState();
   const [items, setItems] = useState([]);
 
   const dispatch = useDispatch();
@@ -114,6 +117,7 @@ const WarehouseStock = () => {
                     <th>Produk</th>
                     <th>Warehouse</th>
                     <th>Qty</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -135,6 +139,21 @@ const WarehouseStock = () => {
                         {value.product.qty} {value.product.measure.name}
                       </td>
                       <td>
+                        {(() => {
+                          if (
+                            value.product.min_stock_status ||
+                            value.product.max_stock_status
+                          )
+                            return (
+                              <i className="fas fa-info-circle text-danger"></i>
+                            );
+                          else
+                            return (
+                              <i className="fas fa-check-circle text-success"></i>
+                            );
+                        })()}
+                      </td>
+                      <td>
                         <button
                           type="button"
                           className="btn btn-info"
@@ -143,6 +162,8 @@ const WarehouseStock = () => {
                           onClick={() => {
                             setProductName(value.product.name);
                             setWarehouseName(value.warehouse.name);
+                            setMinStock(value.product.min_stock);
+                            setMaxStock(value.product.max_stock);
                             setItems(value.product.items);
                           }}
                         >
@@ -184,6 +205,9 @@ const WarehouseStock = () => {
               </button>
             </div>
             <div className="modal-body">
+              <div>Minimum : {minStock}</div>
+              <div>Maksimum : {maxStock}</div>
+              <Gap height={15} />
               <div className="table-responsive">
                 <table className="table">
                   <thead>
@@ -193,6 +217,7 @@ const WarehouseStock = () => {
                       <th>Qty</th>
                       <th>Epc</th>
                       <th>Lokasi</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -220,8 +245,32 @@ const WarehouseStock = () => {
                             </ul>
                           ))}
                         </td>
-
-                        <td></td>
+                        <td>
+                          {(() => {
+                            if (value.min_stock_status)
+                              return (
+                                <button className="btn btn-default">
+                                  <i
+                                    className="fas fa-info-circle text-danger"
+                                    onClick={() => alert("!!!Minimum Stock")}
+                                  ></i>
+                                </button>
+                              );
+                            else if (value.max_stock_status)
+                              return (
+                                <button className="btn btn-default">
+                                  <i
+                                    className="fas fa-info-circle text-danger"
+                                    onClick={() => alert("!!!Max Stock")}
+                                  ></i>
+                                </button>
+                              );
+                            else
+                              return (
+                                <i className="fas fa-check-circle text-success"></i>
+                              );
+                          })()}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
